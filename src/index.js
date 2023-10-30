@@ -1,18 +1,12 @@
-const express = require('express');
 const logger = require("./utils/logger");
-const config = require('./utils/config').value;
+const app = require('./utils/server');
 const file = require('fs');
-const insert_visibility_info_script = file.readFileSync('./scripts/render_scripts.js', 'utf8')
-
-app = express()
-
-app.use(express.urlencoded({extended: true, limit: "10mb"}));
-app.use(express.json({extended: true, limit: "10mb"}));
+// const insert_visibility_info_script = file.readFileSync('@/sc/render_scripts', 'utf8');
+const insert_visibility_info_script = require('./scripts/render_scripts');
 
 
 (async () => {
     global.browser = await require('./utils/puppeteer')({stealth: true});
-
 })()
 
 async function render(url, bypassPaywall) {
@@ -27,8 +21,14 @@ async function render(url, bypassPaywall) {
 
 }
 
+app.get('/health', async (req, res) => {
+    res.send(
+        {'status': 200}
+    )
+})
 
-app.post('/', async (req, res) => {
+
+app.post('/render', async (req, res) => {
     let url = req.body.url;
     try {
         const html = await render(url)
@@ -57,6 +57,3 @@ app.post('/bypass', async (req, res) => {
 })
 
 
-app.listen(config.connect.port, () => {
-    console.log(`Example app listening on port ${config.connect.port}`)
-})

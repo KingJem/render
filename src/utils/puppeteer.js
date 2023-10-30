@@ -1,19 +1,34 @@
 const config = require('./config').value;
 const {proxyUri, proxyUrlHandler} = require('./unify-proxy');
-let puppeteer = require('puppeteer-core');
+let puppeteer = require('puppeteer');
 const proxyChain = require('proxy-chain');
 const logger = require('./logger');
 const path = require("path");
-const payWallPath = path.resolve(__dirname, '../plugins/bypass-paywalls-chrome/');
+const payWallPath = path.resolve(__dirname, './plugins/bypass-paywalls-chrome/');
 
 
 // `--user-agent=${config.ua}`
+
+
 const options = {
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-infobars', '--window-position=0,0', '--ignore-certificate-errors',
-        '--ignore-certificate-errors-spki-list', `--load-extension=${payWallPath}`
+    args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-infobars',
+        '--window-position=0,0',
+        '--ignore-certificate-errors',
+        '--ignore-certificate-errors-spki-list',
+        `--load-extension=${payWallPath}`,
+        '--disable-gpu', // GPU硬件加速
+        '--disable-dev-shm-usage', // 创建临时文件共享内存
+        '--disable-setuid-sandbox', // uid沙盒
+        '--no-first-run', // 没有设置首页。在启动的时候，就会打开一个空白页面。
+        '--no-sandbox', // 沙盒模式
+        '--no-zygote',
+        '--single-process', // 单进程运行
     ],
     // headless: 'new',
-    headless: false,
+    headless: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod',
     ignoreHTTPSErrors: true,
     autoClose: false
 

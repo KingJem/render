@@ -1,6 +1,6 @@
-function insert_visiability_info() {
+function insert_visibility_info() {
     function get_body() {
-        var body = document.getElementsByTagName('body')[0]
+        const body = document.getElementsByTagName('body')[0]
         return body
     }
 
@@ -55,3 +55,6 @@ function insert_visiability_info() {
     body = get_body()
     iter_node(body)
 }
+
+
+module.exports = insert_visibility_info;

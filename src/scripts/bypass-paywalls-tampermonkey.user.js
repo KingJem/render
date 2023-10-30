@@ -182,7 +182,6 @@
 
 (function () {
     'use strict';
-
     if (!matchDomain(['seekingalpha.com', 'sfchronicle.com', 'cen.acs.org', 'elmundo.es', 'scmp.com', 'nytimes.com'])) {
         window.localStorage.clear();
     }
