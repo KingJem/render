@@ -1,8 +1,8 @@
 FROM node:20.9.0-slim
 
-MAINTAINER qqqqivy@gmail.com
+# MAINTAINER qqqqivy@gmail.com
 
-LABEL org.opencontainers.image.authors="qqqqivy@gmail.com"
+# LABEL org.opencontainers.image.authors="qqqqivy@gmail.com"
 ENV NODE_ENV production
 ENV TZ Asia/Shanghai
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true

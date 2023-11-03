@@ -27,8 +27,8 @@ const options = {
         '--no-zygote',
         '--single-process', // 单进程运行
     ],
-    // headless: 'new',
-    headless: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod',
+    headless: 'new',
+    // headless: true,
     ignoreHTTPSErrors: true,
     autoClose: false
 
@@ -41,38 +41,38 @@ const options = {
  * @returns Puppeteer browser
  */
 module.exports = async (extraOptions = {}) => {
-    if (extraOptions.stealth) {
-        const {addExtra} = require('puppeteer-extra');
-        puppeteer = addExtra(puppeteer);
 
-        // require('puppeteer-extra-plugin-stealth/evasions/chrome.app');
-        // require('puppeteer-extra-plugin-stealth/evasions/chrome.csi');
-        // require('puppeteer-extra-plugin-stealth/evasions/chrome.loadTimes');
-        // require('puppeteer-extra-plugin-stealth/evasions/chrome.runtime');
-        // require('puppeteer-extra-plugin-stealth/evasions/defaultArgs');
-        // require('puppeteer-extra-plugin-stealth/evasions/iframe.contentWindow');
-        // require('puppeteer-extra-plugin-stealth/evasions/media.codecs');
-        // require('puppeteer-extra-plugin-stealth/evasions/navigator.hardwareConcurrency');
-        // require('puppeteer-extra-plugin-stealth/evasions/navigator.languages');
-        // require('puppeteer-extra-plugin-stealth/evasions/navigator.permissions');
-        // require('puppeteer-extra-plugin-stealth/evasions/navigator.plugins');
-        // require('puppeteer-extra-plugin-stealth/evasions/navigator.vendor');
-        // require('puppeteer-extra-plugin-stealth/evasions/navigator.webdriver');
-        // require('puppeteer-extra-plugin-stealth/evasions/sourceurl');
-        // require('puppeteer-extra-plugin-stealth/evasions/user-agent-override');
-        // require('puppeteer-extra-plugin-stealth/evasions/webgl.vendor');
-        // require('puppeteer-extra-plugin-stealth/evasions/window.outerdimensions');
-        // require('puppeteer-extra-plugin-user-preferences');
-        // require('puppeteer-extra-plugin-user-data-dir');
+    const {addExtra} = require('puppeteer-extra');
+    puppeteer = addExtra(puppeteer);
 
-        // 禁止加载图片和视频
-        puppeteer.use(require('puppeteer-extra-plugin-block-resources')({blockedTypes: new Set(['image', 'media'])}))
-        // puppeteer.use(require('puppeteer-extra-plugin-font-size')({defaultFontSize: 18}))
-        // 匿名UA
-        puppeteer.use(require('puppeteer-extra-plugin-anonymize-ua')())
-        // 方式检测
-        puppeteer.use(require('puppeteer-extra-plugin-stealth')());
-    }
+    require('puppeteer-extra-plugin-stealth/evasions/chrome.app');
+    require('puppeteer-extra-plugin-stealth/evasions/chrome.csi');
+    require('puppeteer-extra-plugin-stealth/evasions/chrome.loadTimes');
+    require('puppeteer-extra-plugin-stealth/evasions/chrome.runtime');
+    require('puppeteer-extra-plugin-stealth/evasions/defaultArgs');
+    require('puppeteer-extra-plugin-stealth/evasions/iframe.contentWindow');
+    require('puppeteer-extra-plugin-stealth/evasions/media.codecs');
+    require('puppeteer-extra-plugin-stealth/evasions/navigator.hardwareConcurrency');
+    require('puppeteer-extra-plugin-stealth/evasions/navigator.languages');
+    require('puppeteer-extra-plugin-stealth/evasions/navigator.permissions');
+    require('puppeteer-extra-plugin-stealth/evasions/navigator.plugins');
+    require('puppeteer-extra-plugin-stealth/evasions/navigator.vendor');
+    require('puppeteer-extra-plugin-stealth/evasions/navigator.webdriver');
+    require('puppeteer-extra-plugin-stealth/evasions/sourceurl');
+    require('puppeteer-extra-plugin-stealth/evasions/user-agent-override');
+    require('puppeteer-extra-plugin-stealth/evasions/webgl.vendor');
+    require('puppeteer-extra-plugin-stealth/evasions/window.outerdimensions');
+    require('puppeteer-extra-plugin-user-preferences');
+    require('puppeteer-extra-plugin-user-data-dir');
+
+    // 禁止加载图片和视频
+    puppeteer.use(require('puppeteer-extra-plugin-block-resources')({blockedTypes: new Set(['image', 'media'])}))
+    // puppeteer.use(require('puppeteer-extra-plugin-font-size')({defaultFontSize: 18}))
+    // 匿名UA
+    puppeteer.use(require('puppeteer-extra-plugin-anonymize-ua')())
+    // 方式检测
+    puppeteer.use(require('puppeteer-extra-plugin-stealth')());
+
     let browser;
     if (proxyUri) {
         if (proxyUrlHandler.username || proxyUrlHandler.password) {

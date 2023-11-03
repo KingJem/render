@@ -2,9 +2,18 @@ const puppeteer = require("puppeteer");
 require('dotenv').config();
 let envs = process.env;
 
+const headless = function test() {
+    if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod') {
+        return true
+    } else if (process.env.NODE_ENV === 'develop' || process.env.NODE_ENV === 'dev') {
+        return false
+    } else if (process.env.NODE_ENV === 'new') {
+        return 'new'
+    }
+}()
+
 const calculateValue = () => {
     for (const name in envs) {
-
         value = {
             // app config
             disallowRobot: envs.DISALLOW_ROBOT !== '0' && envs.DISALLOW_ROBOT !== 'false',
@@ -13,7 +22,7 @@ const calculateValue = () => {
             nodeName: envs.NODE_NAME,
             nodeEnv: envs.NODE_ENV,
             puppeteerWSEndpoint: envs.PUPPETEER_WS_ENDPOINT,
-            chromiumExecutablePath: envs.CHROMIUM_EXECUTABLE_PATH || puppeteer.executablePath(),
+            chromiumExecutablePath: envs.CHROMIUM_EXECUTABLE_PATH,
             // chromiumExecutablePath: envs.CHROMIUM_EXECUTABLE_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
             // network
             connect: {
@@ -22,14 +31,7 @@ const calculateValue = () => {
             },
 
             // proxy
-            proxyUri: envs.PROXY_URI,
-            proxy: {
-                protocol: envs.PROXY_PROTOCOL,
-                host: envs.PROXY_HOST,
-                port: envs.PROXY_PORT,
-                auth: envs.PROXY_AUTH,
-                url_regex: envs.PROXY_URL_REGEX || '.*',
-            },
+            proxyUri: envs.PROXY_URI || "socks5h://127.0.0.1:7890",
             proxyStrategy: envs.PROXY_STRATEGY || 'all', // all / on_retry
             reverseProxyUrl: envs.REVERSE_PROXY_URL,
 
@@ -39,10 +41,13 @@ const calculateValue = () => {
             loggerLevel: envs.LOGGER_LEVEL || 'info',
             noLogfiles: envs.NO_LOGFILES,
             showLoggerTimestamp: envs.SHOW_LOGGER_TIMESTAMP,
+            headless: headless,
         };
     }
 };
+
 calculateValue();
+
 
 module.exports = {
     set: (env) => {
