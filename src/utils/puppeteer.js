@@ -106,14 +106,14 @@ module.exports = async (extraOptions = {}) => {
     // }, 300000);
 
 
-    process.on('exit', async () => {
-        if (browser) await browser.close();
-    });
-
-    process.on('uncaughtException', async () => {
-        if (browser) await browser.close();
-        process.exit(1);  // Exit with an error code
-    });
+    // process.on('exit', async () => {
+    //     if (browser) await browser.close();
+    // });
+    //
+    // process.on('uncaughtException', async () => {
+    //     if (browser) await browser.close();
+    //     process.exit(1);  // Exit with an error code
+    // });
 
     return browser;
 };

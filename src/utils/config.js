@@ -21,7 +21,7 @@ const calculateValue = () => {
             isPackage: envs.IS_PACKAGE,
             nodeName: envs.NODE_NAME,
             nodeEnv: envs.NODE_ENV,
-            puppeteerWSEndpoint: envs.PUPPETEER_WS_ENDPOINT,
+            puppeteerWSEndpoint: envs.PUPPETEER_WS_ENDPOINT || "ws://192.168.237.2:3000",
             chromiumExecutablePath: envs.CHROMIUM_EXECUTABLE_PATH,
             // chromiumExecutablePath: envs.CHROMIUM_EXECUTABLE_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
             // network
@@ -31,7 +31,7 @@ const calculateValue = () => {
             },
 
             // proxy
-            proxyUri: envs.PROXY_URI || "socks5h://127.0.0.1:7890",
+            proxyUri: envs.PROXY_URI,
             proxyStrategy: envs.PROXY_STRATEGY || 'all', // all / on_retry
             reverseProxyUrl: envs.REVERSE_PROXY_URL,
 

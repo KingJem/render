@@ -1,40 +1,46 @@
 version: '3.9'
 
 services:
-  render:
-    image: render:test-v3
-#    restart: always
-    ports:
-      - '1200:8001'
-    environment:
-      NODE_ENV: production
-      PUPPETEER_WS_ENDPOINT: 'ws://browserless:3000'
-    depends_on:
-      - browserless  # marked
+  #  render:
+  #    image: render:test-v3
+  ##    restart: always
+  #    ports:
+  #      - '8001:8001'
+  #    environment:
+  #      NODE_ENV: production
+  #      PUPPETEER_WS_ENDPOINT: 'ws://browserless:3000'
+  #    depends_on:
+  #      - browserless  # marked
 
   browserless:
     image: browserless/chrome
-#    restart: always
+    #    restart: always
     environment:
+#      DEFAULT_LAUNCH_ARGS: '["--window-size=1920,1080","--proxy-server=http://10.1.4.181:7890"]' # 代理服务
+      DEFAULT_LAUNCH_ARGS: '["--window-size=1920,1080"]' # 代理服务
       DEFAULT_BLOCK_ADS: "true"
       DEFAULT_IGNORE_HTTPS_ERRORS: "true"
       CONNECTION_TIMEOUT: "60000"  # 超时时间
       MAX_QUEUE_LENGTH: 5
       MAX_CONCURRENT_SESSIONS: 20  # 最大并发数
-      PREBOOT_CHROME: true  # 预先启动
-      PREBOOT_QUANTITY: 3  # 预先启动三个浏览器
-      WORKSPACE_DELETE_EXPIRED: true # 工作目录过期删除
+      PREBOOT_CHROME: "true"  # 预先启动
+      PREBOOT_QUANTITY: 1  # 预先启动三个浏览器
+      WORKSPACE_DELETE_EXPIRED: "true" # 工作目录过期删除
       WORKSPACE_EXPIRE_DAYS: 3 # 工作目录过期时间
-      ENABLE_DEBUGGER: false  # 禁用调试
-      DISABLE_AUTO_SET_DOWNLOAD_BEHAVIOR: true # 禁止下载
-      ENABLE_CORS: true
-      ENABLE_XVBF: false  # 关闭xvbf  screencast 可能会失败
-      KEEP_ALIVE: true
+      ENABLE_DEBUGGER: "true"  # 启用调试
+      DISABLE_AUTO_SET_DOWNLOAD_BEHAVIOR: "true" # 禁止下载
+      ENABLE_CORS: "true"
+      ENABLE_XVBF: "false"  # 关闭xvbf  screencast 可能会失败
+      KEEP_ALIVE: "true"
       CHROME_REFRESH_TIME: 3600000 # 设置chrome 重启时间 一个小时
-      DEFAULT_LAUNCH_ARGS: '["--window-size=1920,1080"]'
-      PUPPETEER-EXTRA-STEALTH: true
-      ENABLE_API_GET: true
-
+      PUPPETEER-EXTRA-STEALTH: "true"
+      ENABLE_API_GET: "true"
+      PROXY_HOST: "10.1.4.181"
+      PROXY_PORT: 7890
+      PROXY_SSL: "false"
+#      PROXY_URL: "http://10.1.4.181:7890"
+      DEFAULT_STEALTH: "true"
+      MAX_PAYLOAD_SIZE: "10mb"
 
     ports:
       - "3000:3000"
